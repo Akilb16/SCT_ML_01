@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
@@ -31,11 +32,11 @@ submissiondata.to_csv('sample_submission.csv', index=False)
 print('Submission file created: sample_submission.csv')
 
 plt.figure(figsize=(10, 6))
-plt.scatter(y_test, y_val_pred, color='blue', label='Predicted vs Actual')
-plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2, label='Perfect Prediction (y=x)')
+colors = np.abs(y_val_pred - y_test)  # Difference between actual and predicted values
+plt.scatter(y_test, y_val_pred, c=colors, cmap='viridis', edgecolor='k', alpha=0.7)
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=3)
 plt.xlabel('Actual Sale Price')
 plt.ylabel('Predicted Sale Price')
-plt.title('Actual vs Predicted Sale Price')
-plt.legend()
-plt.grid(True)
+plt.title('Actual vs Predicted Sale Prices (Colorful)')
+plt.colorbar(label='Prediction Error')
 plt.show()
